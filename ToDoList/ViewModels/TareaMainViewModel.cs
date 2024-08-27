@@ -72,12 +72,12 @@ namespace ToDoList.ViewModels
         /// <param name="tarea">Objeto seleccionado para actualizar o eliminar el registro</param>
         /// <returns>Opciones al seleccionar el registro de empleado</returns>
         [RelayCommand]
-        private async Task selectTarea(Tarea tarea)
+        private async Task SelectTarea(Tarea tarea)
         {
             try
             {
                 string actualizar = "Actualizar";
-                string eliminar = "Eliminar");
+                string eliminar = "Eliminar";
                 //ALerta de Consulta y dicha alerta trae una respuesta
                 string res = await App.Current!.MainPage!.DisplayActionSheet("OPCIONES", "Cancelar", null, actualizar, eliminar);
                 if (res == actualizar)
