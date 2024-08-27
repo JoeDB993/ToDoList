@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.Views.TareaMain"
+             xmlns:viewModel="clr-namespace:ToDoList.ViewModels"
+             x:DataType="viewModel:TareaMainViewModel"
+             xmlns:model="clr-namespace:ToDoList.Models"
+             Title="Lista de Tareas">
+    <ScrollView>
+        <VerticalStackLayout Padding="10,0,10,0">
+            <Button Text="Agregar Tarea" Command="{Binding goToAddTareaFormCommand}"/>
+            <Grid Margin="5,5,5,5" RowDefinitions="Auto" ColumnDefinitions="*,*,*">
+                <Label Text="Nombre" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="Descripción" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+                <Label Text="Estado" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+            </Grid>
+            <CollectionView ItemsSource="{Binding TareaCollection}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Tarea">
+                        <Grid RowSpacing="0" RowDefinitions="5,Auto,5,1" ColumnDefinitions="*,*,*" VerticalOptions="FillAndExpand">
+                            <Label Text="{Binding Nombre}" Grid.Row="1" Grid.Column="0"/>
+                            <Label Text="{Binding Descripcion}" Grid.Row="1" Grid.Column="1"/>
+                            <Label Text="{Binding Estado}" Grid.Row="1" Grid.Column="2"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModel:TareaMainViewModel}},Path=SelectTareaCommand}" CommandParameter="{Binding .}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
