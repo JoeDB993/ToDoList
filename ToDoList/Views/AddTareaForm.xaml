@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.Views.AddTareaForm"
+             xmlns:viewModel="clr-namespace:ToDoList.ViewModels"
+             x:DataType="viewModel:AddTareaFormViewModel"
+             Title="Tarea">
+    <VerticalStackLayout Padding="30,0,30,0" Spacing="5" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
+        <Label Text="Nombre de la tarea:"/>
+        <Entry Text="{Binding Nombre}" Keyboard="Text" Placeholder="Ingrese la tarea a realizar"/>
+        <Label Text="Descripción de la tarea:"/>
+        <Entry Text="{Binding Descripcion}" Keyboard="Text" Placeholder="Ingrese la descripción de la tarea"/>
+        <Label Text="Estado de la tarea:"/>
+        <Picker ItemsSource="{Binding Estados}" SelectedItem="{Binding Estado}"/>
+
+        <Button Text="Guardar" Command="{Binding AddUpdateCommand}" /> 
+    </VerticalStackLayout>
+</ContentPage>

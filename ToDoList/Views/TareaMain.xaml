@@ -17,15 +17,16 @@
             <CollectionView ItemsSource="{Binding TareaCollection}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Tarea">
-                        <Grid RowSpacing="0" RowDefinitions="5,Auto,5,1" ColumnDefinitions="*,*,*" VerticalOptions="FillAndExpand">
-                            <Label Text="{Binding Nombre}" Grid.Row="1" Grid.Column="0"/>
-                            <Label Text="{Binding Descripcion}" Grid.Row="1" Grid.Column="1"/>
-                            <Label Text="{Binding Estado}" Grid.Row="1" Grid.Column="2"/>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModel:TareaMainViewModel}},Path=SelectTareaCommand}" CommandParameter="{Binding .}"/>
-                            </Grid.GestureRecognizers>
-                        </Grid>
-
+                        <Frame Margin="5" Padding="10" BorderColor="LightGray" CornerRadius="10" HasShadow="True">
+                            <Grid RowSpacing="0" RowDefinitions="5,Auto,5,5" ColumnDefinitions="*,*,*" VerticalOptions="FillAndExpand">
+                                <Label Text="{Binding Nombre}" Grid.Row="1" Grid.Column="0"/>
+                                <Label Text="{Binding Descripcion}" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="{Binding Estado}" Grid.Row="1" Grid.Column="2"/>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModel:TareaMainViewModel}},Path=SelectTareaCommand}" CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -33,3 +34,4 @@
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
+
