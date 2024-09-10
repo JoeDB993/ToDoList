@@ -22,12 +22,23 @@ namespace ToDoList.ViewModels
         [ObservableProperty]
         private string estado;
 
+        [ObservableProperty]
+        private string prioridad;
+
         public ObservableCollection<string> Estados { get; } = new ObservableCollection<string>
         {
             "Por hacer",
             "En proceso",
             "Terminada"
         };
+        
+
+        public ObservableCollection<string> PrioridadOptions { get; } = new ObservableCollection<string> 
+        { 
+            "Alta", 
+            "Media", 
+            "Baja" 
+        }; 
 
         
         private readonly TareaServices TareaServices;
@@ -53,6 +64,7 @@ namespace ToDoList.ViewModels
             Nombre = Tarea.Nombre;
             Descripcion = Tarea.Descripcion;
             Estado = Tarea.Estado;
+            Prioridad = Tarea.Prioridad; 
         }
 
         /// <summary>
@@ -77,7 +89,8 @@ namespace ToDoList.ViewModels
                     Id = Id,
                     Nombre = Nombre,
                     Descripcion = Descripcion,
-                    Estado = Estado
+                    Estado = Estado,
+                    Prioridad = Prioridad
                 };
 
 

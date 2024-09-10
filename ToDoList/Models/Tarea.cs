@@ -11,5 +11,6 @@ namespace ToDoList.Models
         [NotNull]
         public string Descripcion { get; set; }
         public string Estado { get; set; } // "Por hacer", "En progreso", "Finalizada" 
+        public string Prioridad { get; set; }
     }
 }

@@ -8,11 +8,17 @@
     <VerticalStackLayout Padding="30,0,30,0" Spacing="5" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand">
         <Label Text="Nombre de la tarea:"/>
         <Entry Text="{Binding Nombre}" Keyboard="Text" Placeholder="Ingrese la tarea a realizar"/>
+
         <Label Text="Descripción de la tarea:"/>
         <Entry Text="{Binding Descripcion}" Keyboard="Text" Placeholder="Ingrese la descripción de la tarea"/>
+        
         <Label Text="Estado de la tarea:"/>
         <Picker ItemsSource="{Binding Estados}" SelectedItem="{Binding Estado}"/>
-
+        
+        <Label Text="Prioridad (seleccione):"/>
+        <Picker ItemsSource="{Binding PrioridadOptions}" 
+        SelectedItem="{Binding Prioridad}"/>
+        
         <Button Text="Guardar" Command="{Binding AddUpdateCommand}" /> 
     </VerticalStackLayout>
 </ContentPage>

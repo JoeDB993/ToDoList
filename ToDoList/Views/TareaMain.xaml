@@ -37,11 +37,19 @@
                                 FontFamily="Roboto"
                                 HorizontalOptions="Start" />
 
-                                <Label Text="{Binding Descripcion}" 
+                                <Label  Text="{Binding Descripcion}" 
                                 FontSize="Small" 
                                 VerticalTextAlignment="Center"
                                 FontFamily="Roboto"
                                 HorizontalOptions="Start" />
+
+                                <Label Text="{Binding Prioridad, StringFormat='Prioridad: {0}'}"
+                                FontSize="Small"
+                                FontFamily="Roboto"
+                                FontAttributes="Italic"
+                                HorizontalTextAlignment="Center" 
+                                VerticalTextAlignment="Center" 
+                                HorizontalOptions="End"/>
 
                                 <Label Text="{Binding Estado}" 
                                 FontSize="Small"
@@ -50,6 +58,8 @@
                                 VerticalTextAlignment="Center"
                                 FontFamily="Roboto"
                                 HorizontalOptions="End" />
+
+                                
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
