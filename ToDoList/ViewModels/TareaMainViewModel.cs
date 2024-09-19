@@ -1,6 +1,4 @@
-﻿
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using ToDoList.Models;
@@ -9,40 +7,26 @@ using ToDoList.Views;
 
 namespace ToDoList.ViewModels
 {
-    public partial class TareaMainViewModel : ObservableObject 
+    public partial class TareaMainViewModel : ObservableObject
     {
-        //Colección de datos para interactuar con la vista
         [ObservableProperty]
         private ObservableCollection<Tarea> tareaCollection = new ObservableCollection<Tarea>();
 
-        //Llamamos a la clase en donde configuramos la base de datos
         private readonly TareaServices TareaServices;
 
-        //Constructor
         public TareaMainViewModel()
         {
             TareaServices = new TareaServices();
         }
 
-        /// <summary>
-        /// Muestra un mensaje de alerta personalizado
-        /// </summary>
-        /// <param name="Titulo">Título de la alerta, por ejemmplo, ERROR, ADVERTENCIA, etc </param>
-        /// <param name="Mensaje">Mensaje a mostrar en la alerta</param>
         private void Alerta(string Titulo, string Mensaje)
         {
             MainThread.BeginInvokeOnMainThread(async () => await App.Current!.MainPage!.DisplayAlert(Titulo, Mensaje, "Aceptar"));
         }
 
-
-        /// <summary>
-        /// Muestra el listado de empleados
-        /// </summary>
         public void GetAll()
         {
             var getAll = TareaServices.GetAll();
-
-            //Validar si la lista tiene registros
             if (getAll.Count > 0)
             {
                 TareaCollection.Clear();
@@ -50,27 +34,15 @@ namespace ToDoList.ViewModels
                 {
                     TareaCollection.Add(tarea);
                 }
-            
             }
-
         }
 
-        /// <summary>
-        /// Redirecciona a la lista de agregar, editar tarea
-        /// </summary>
-        /// <returns>Vista de agregar/editar empleado</returns>
         [RelayCommand]
-        private async Task goToAddTareaForm() 
+        private async Task goToAddTareaForm()
         {
             await App.Current!.MainPage!.Navigation.PushAsync(new AddTareaForm());
         }
 
-
-        /// <summary>
-        /// Muestra las opciones al seleccionar un registro de tarea
-        /// </summary>
-        /// <param name="tarea">Objeto seleccionado para actualizar o eliminar el registro</param>
-        /// <returns>Opciones al seleccionar el registro de empleado</returns>
         [RelayCommand]
         private async Task SelectTarea(Tarea tarea)
         {
@@ -78,15 +50,15 @@ namespace ToDoList.ViewModels
             {
                 string actualizar = "Actualizar";
                 string eliminar = "Eliminar";
-                //ALerta de Consulta y dicha alerta trae una respuesta
                 string res = await App.Current!.MainPage!.DisplayActionSheet("OPCIONES", "Cancelar", null, actualizar, eliminar);
                 if (res == actualizar)
                 {
                     await App.Current.MainPage.Navigation.PushAsync(new AddTareaForm(tarea));
-                } else if (res == eliminar) 
+                }
+                else if (res == eliminar)
                 {
-                    bool respuesta = await App.Current!.MainPage!.DisplayAlert("ELIMINAR TAREA", "¿Desea eliminar el registro de la tarea?", "Si","No");
-                    if (respuesta) 
+                    bool respuesta = await App.Current!.MainPage!.DisplayAlert("ELIMINAR TAREA", "¿Desea eliminar el registro de la tarea?", "Si", "No");
+                    if (respuesta)
                     {
                         int del = TareaServices.Delete(tarea);
                         if (del > 0)
@@ -96,11 +68,58 @@ namespace ToDoList.ViewModels
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                Alerta ("ERROR", ex.Message);
-            }      
+                Alerta("ERROR", ex.Message);
+            }
         }
 
+        // Eliminar todas las tareas seleccionadas
+        [RelayCommand]
+        private void EliminarTareasSeleccionadas()
+        {
+            var tareasAEliminar = TareaCollection.Where(t => t.IsSelected).ToList();
+            if (tareasAEliminar.Count == 0)
+            {
+                Alerta("ADVERTENCIA", "No hay tareas seleccionadas para eliminar.");
+                return;
+            }
+
+            foreach (var tarea in tareasAEliminar)
+            {
+                int del = TareaServices.Delete(tarea);
+                if (del > 0)
+                {
+                    TareaCollection.Remove(tarea);
+                }
+            }
+        }
+
+        // Actualizar la tarea seleccionada
+        [RelayCommand]
+        private async Task ActualizarTareaSeleccionada()
+        {
+            
+            var tareasSeleccionadas = TareaCollection.Where(t => t.IsSelected).ToList();
+
+            
+            if (!tareasSeleccionadas.Any())
+            {
+                Alerta("ADVERTENCIA", "No hay tareas seleccionadas para actualizar.");
+                return;
+            }
+
+            
+            if (tareasSeleccionadas.Count > 1)
+            {
+                Alerta("ADVERTENCIA", "Solo puede seleccionar una tarea para actualizar.");
+                return;
+            }
+
+            
+            var tareaSeleccionada = tareasSeleccionadas.First();
+            await App.Current.MainPage.Navigation.PushAsync(new AddTareaForm(tareaSeleccionada));
+        }
     }
 }
+
